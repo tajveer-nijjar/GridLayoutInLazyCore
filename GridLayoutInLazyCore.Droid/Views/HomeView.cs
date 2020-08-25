@@ -9,6 +9,8 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using Android.Widget;
+using GridLayoutInLazyCore.Application.Views;
+using LazyCore.Droid.Views;
 
 namespace GridLayoutInLazyCore.Droid.Views
 {
