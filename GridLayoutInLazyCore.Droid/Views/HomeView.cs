@@ -14,6 +14,7 @@ using Android.Widget;
 using GridLayoutInLazyCore.Application.Views;
 using GridLayoutInLazyCore.Droid.Adapters;
 using LazyCore.Droid.Views;
+using LazyCore.Foundation.UI.Controls;
 
 namespace GridLayoutInLazyCore.Droid.Views
 {
@@ -22,6 +23,12 @@ namespace GridLayoutInLazyCore.Droid.Views
     {
         private List<int> _data;
         public event EventHandler<RecyclerAdapterClickEventArgs> ItemClick;
+        public event Action SendValidationRequest;
+        public event Action ValidateButtonClicked;
+        private Button _validateButton;
+
+        public IButton ValidateButton { get; set; }
+
 
         public HomeView()
         {
@@ -33,7 +40,6 @@ namespace GridLayoutInLazyCore.Droid.Views
             base.OnCreate(savedInstanceState);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             SetContentView(Resource.Layout.home_view);
-
 
 
             // Get our button from the layout resource,
@@ -68,6 +74,8 @@ namespace GridLayoutInLazyCore.Droid.Views
                 gridLayoutManager.SpanCount = spanCount;
                 adapter.NotifyDataSetChanged();
             }
+
+            SendValidationRequest?.Invoke();
         }
 
         private bool IsTablet(Context context)
@@ -85,9 +93,16 @@ namespace GridLayoutInLazyCore.Droid.Views
 
         protected override void SetupView()
         {
-
+            _validateButton = (Button)FindViewById(Resource.Id.validateButton);
+            _validateButton.Enabled = true;
+            _validateButton.Text = "Abc";
+            _validateButton.Click += (s, e) =>
+            {
+                ValidateButtonClicked?.Invoke();
+            };
         }
 
         protected override int LayoutResourceId => Resource.Layout.home_view;
+
     }
 }

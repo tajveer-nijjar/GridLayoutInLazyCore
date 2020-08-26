@@ -1,6 +1,10 @@
 ﻿using GridLayoutInLazyCore.Application.ViewControllers;
 using GridLayoutInLazyCore.Application.Views;
+using GridLayoutInLazyCore.BusinessLogic.VideoManager;
+using LazyCore.Foundation;
 using LazyCore.Foundation.View;
+using ProductX.BusinessLogic.EnvironmentManager;
+using ProductX.BusinessLogic.WebApi;
 using System;
 
 namespace GridLayoutInLazyCore.Application
@@ -15,6 +19,9 @@ namespace GridLayoutInLazyCore.Application
 
         protected override void RegisterCrossPlatformServices()
         {
+            IoC.RegisterSingleton<IVideoManager, VideoManager>();
+            IoC.RegisterSingleton<IWebApiClient, WebApiClient>();
+            IoC.RegisterSingleton<IEnvironmentManager, EnvironmentManager>();
             // Cross platform services...
         }
 

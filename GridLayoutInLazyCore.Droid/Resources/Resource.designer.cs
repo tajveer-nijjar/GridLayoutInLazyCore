@@ -3781,16 +3781,19 @@ namespace GridLayoutInLazyCore.Droid
 			public const int useLogo = 2131230907;
 			
 			// aapt resource value: 0x7F0800BC
-			public const int view_offset_helper = 2131230908;
+			public const int validateButton = 2131230908;
 			
 			// aapt resource value: 0x7F0800BD
-			public const int visible = 2131230909;
+			public const int view_offset_helper = 2131230909;
 			
 			// aapt resource value: 0x7F0800BE
-			public const int withText = 2131230910;
+			public const int visible = 2131230910;
 			
 			// aapt resource value: 0x7F0800BF
-			public const int wrap_content = 2131230911;
+			public const int withText = 2131230911;
+			
+			// aapt resource value: 0x7F0800C0
+			public const int wrap_content = 2131230912;
 			
 			static Id()
 			{
