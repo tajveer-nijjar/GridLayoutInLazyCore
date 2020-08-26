@@ -8,8 +8,14 @@ using GridLayoutInLazyCore.Application.Views;
 using GridLayoutInLazyCore.Droid.Adapters;
 using LazyCore.Droid.Views;
 using LazyCore.Foundation.UI.Controls;
+using SharpCaster.Controllers;
+using SharpCaster.Models;
+using SharpCaster.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GridLayoutInLazyCore.Droid.Views
 {
@@ -21,7 +27,7 @@ namespace GridLayoutInLazyCore.Droid.Views
         public event Action SendValidationRequest;
         public event Action ValidateButtonClicked;
         VideoView _videoView;
-        Button _btnPlayPause;
+        Button _btnPlayPause, _castButton;
 
         string _videoUrl = "";
 
@@ -52,7 +58,6 @@ namespace GridLayoutInLazyCore.Droid.Views
             SendValidationRequest?.Invoke();
 
             ValidateButton = (LazyCore.Droid.UI.Button)FindViewById(Resource.Id.buttonx);
-            ValidateButton.Text = "Hehe Haha Hoho";
 
             _videoView = FindViewById<VideoView>(Resource.Id.videoView);
 
@@ -92,6 +97,40 @@ namespace GridLayoutInLazyCore.Droid.Views
                     throw;
                 }
             };
+
+            _castButton = FindViewById<Button>(Resource.Id.castButton);
+            _castButton.Enabled = false;
+            _castButton.Click += HandleCastButtonClick;
+        }
+
+        private async void HandleCastButtonClick(object sender, EventArgs eventArgs)
+        {
+            ObservableCollection<Chromecast> chromecasts = await ChromecastService.Current.StartLocatingDevices();
+            ////If that does not return devices on desktop then you can use this, Where 192.168.1.2 is your machines local ip
+            //ObservableCollection<Chromecast> chromecasts = await ChromecastService.Current.StartLocatingDevices("192.168.1.2);
+            if (chromecasts.Count > 0)
+            {
+                var chromecast = chromecasts.First();
+                SharpCasterDemoController _controller = new SharpCasterDemoController(ChromecastService.Current.ChromeCastClient);
+
+                ChromecastService.Current.ChromeCastClient.ConnectedChanged += async (s, e) =>
+                {
+                    _controller = await ChromecastService.Current.ChromeCastClient.LaunchSharpCaster();
+                };
+
+                ChromecastService.Current.ChromeCastClient.ApplicationStarted +=
+                async delegate
+                {
+                    while (_controller == null)
+                    {
+                        await Task.Delay(500);
+                    }
+
+                    await _controller.LoadMedia(_videoUrl, "video/mp4",null, "BUFFERED");
+                };
+                await ChromecastService.Current.ConnectToChromecast(chromecast);
+
+            }
         }
 
         private void SetupRecyclerView()
@@ -131,6 +170,7 @@ namespace GridLayoutInLazyCore.Droid.Views
         public void SetVideoUrl(string mp4Url)
         {
             _btnPlayPause.Enabled = true;
+            _castButton.Enabled = true;
             _videoUrl = mp4Url;
             //Android.Net.Uri uri = Android.Net.Uri.Parse(_videoUrl);
             //_videoView.SetVideoURI(uri);
