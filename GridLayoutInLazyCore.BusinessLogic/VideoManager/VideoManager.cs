@@ -40,6 +40,12 @@ namespace GridLayoutInLazyCore.BusinessLogic.VideoManager
             return videos;
         }
 
+        public async Task<string> GetVideoConfig(string uri)
+        {
+            var response = await _webApiClient.GetVideoConfig(uri);
+            return response;
+        }
+
         public async Task<ValidationResponse> Validate()
         {
             return await _webApiClient.Validate();

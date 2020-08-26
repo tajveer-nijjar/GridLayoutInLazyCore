@@ -10,7 +10,8 @@ namespace ProductX.BusinessLogic.WebApi
     public interface IWebApiClient
     {
         Task<ValidationResponse> Validate();
-
+        Task<string> GetVideoConfig(string uri);
+        
         //Task<int> CompleteJobAsync(CompleteJobRequest request);
         //Task<List<CompletedJob>> GetCompletedJobAsync();
         //Task<JobAttachmentResult> AddAttachmentAsync(int jobId, JobAttachmentType jobAttachmentType, byte[] attachmentData);

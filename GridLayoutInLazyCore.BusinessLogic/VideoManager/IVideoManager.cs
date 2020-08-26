@@ -11,5 +11,7 @@ namespace GridLayoutInLazyCore.BusinessLogic.VideoManager
         Task<ValidationResponse> Validate();
         Task Authorize();
         Task<VimeoDotNet.Models.Paginated<VimeoDotNet.Models.Video>> GetListOfVideosInAnAlbum();
+
+        Task<string> GetVideoConfig(string uri);
     }
 }

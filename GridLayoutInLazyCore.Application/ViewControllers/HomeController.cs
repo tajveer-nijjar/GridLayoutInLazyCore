@@ -27,20 +27,15 @@ namespace GridLayoutInLazyCore.Application.ViewControllers
             {
                 DoSafeAsync(Validate);
             };
-
-            //View.ValidateButton.Clicked += (s, e) => DoSafeAsync(Validate);
-            //View.ValidateButton.Clicked += (s, e) =>
-            //{
-            //    var x = 10;
-            //};
         }
 
         public async Task Validate()
         {
-            //var x = await _videoManager.Validate();
-            //await _videoManager.Authorize();
-
             var videos = await _videoManager.GetListOfVideosInAnAlbum();
+            var uri = videos.Data[1].Id.ToString();
+            var mp4Url = await _videoManager.GetVideoConfig(uri);
+
+            View.SetVideoUrl(mp4Url);
         }
     }
 }

@@ -11,6 +11,9 @@ namespace GridLayoutInLazyCore.Application.Views
         event Action SendValidationRequest;
         event Action ValidateButtonClicked;
 
+        void SetVideoUrl(string mp4Url);
+
+
         IButton ValidateButton { get; set; }
     }
 }

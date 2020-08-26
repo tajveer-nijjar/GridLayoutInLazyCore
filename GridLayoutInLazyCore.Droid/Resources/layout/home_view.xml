@@ -1,18 +1,30 @@
-﻿
-<LinearLayout
+﻿<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <LazyCore.Droid.UI.Button
-        android:id="@+id/buttonx"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:scrollbars="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+  <VideoView
+    android:id="@+id/videoView"
+    android:layout_width="match_parent"
+    android:layout_height="300dp"/>
+
+  <Button
+    android:id="@+id/btnPlayPause"
+    android:text="Play/Pause"
+    android:visibility="invisible"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"/>
+  
+  <LazyCore.Droid.UI.Button
+      android:id="@+id/buttonx"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Button"/>
+
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/recyclerView"
+      android:scrollbars="vertical"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent" />
 </LinearLayout>

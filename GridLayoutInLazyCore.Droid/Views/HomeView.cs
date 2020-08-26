@@ -25,13 +25,17 @@ namespace GridLayoutInLazyCore.Droid.Views
         public event EventHandler<RecyclerAdapterClickEventArgs> ItemClick;
         public event Action SendValidationRequest;
         public event Action ValidateButtonClicked;
+        ProgressDialog _dialog;
+        VideoView _videoView;
+        Button _btnPlayPause;
+
+        string _videoUrl = "";
 
         public IButton ValidateButton { get; set; }
 
-
         public HomeView()
         {
-            _data = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8 };
+            _data = new List<int>();
         }
 
         private bool IsTablet(Context context)
@@ -84,6 +88,60 @@ namespace GridLayoutInLazyCore.Droid.Views
 
             ValidateButton = (LazyCore.Droid.UI.Button)FindViewById(Resource.Id.buttonx);
             ValidateButton.Text = "Hehe Haha Hoho";
+
+            _videoView = FindViewById<VideoView>(Resource.Id.videoView);
+            _btnPlayPause = FindViewById<Button>(Resource.Id.btnPlayPause);
+
+            
+
+            _btnPlayPause.Click += (e, s) =>
+            {
+                _dialog = new ProgressDialog(this);
+                _dialog.Window.SetType(Android.Views.WindowManagerTypes.Toast);
+                _dialog.SetMessage("Please wait...");
+                _dialog.SetCanceledOnTouchOutside(false);
+                _dialog.Show();
+
+                try
+                {
+                    if (!_videoView.IsPlaying)
+                    {
+                        Android.Net.Uri uri = Android.Net.Uri.Parse(_videoUrl);
+                        _videoView.SetVideoURI(uri);
+                        _videoView.RequestFocus();
+
+                        _videoView.Completion += (ee, ss) =>
+                        {
+                            _btnPlayPause.Text = "Play";
+                        };
+
+                        _videoView.Prepared += (ee, ss) =>
+                        {
+                            _videoView.Start();
+                            _btnPlayPause.Text = "Pause";
+                            _dialog.Dismiss();
+                        };
+                    }
+                    else
+                    {
+                        _videoView.Pause();
+                        _btnPlayPause.Text = "Play";
+                    }
+                }
+                catch (Exception exp)
+                {
+                    throw;
+                }
+            };
+        }
+
+        public void SetVideoUrl(string mp4Url)
+        {
+            _videoUrl = mp4Url;
+            Android.Net.Uri uri = Android.Net.Uri.Parse(_videoUrl);
+            _videoView.SetVideoURI(uri);
+            _videoView.RequestFocus();
+            _videoView.Start();
         }
 
         protected override int LayoutResourceId => Resource.Layout.home_view;

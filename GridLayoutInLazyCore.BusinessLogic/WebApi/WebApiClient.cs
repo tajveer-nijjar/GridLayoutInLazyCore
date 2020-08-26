@@ -39,9 +39,14 @@ namespace ProductX.BusinessLogic.WebApi
             return result;
         }
 
-        public async Task GetVideosOfAUser(long userId)
+        public async Task<string> GetVideoConfig(string uri)
         {
-           
+            var url = new Uri($"https://player.vimeo.com/video/{uri}/config");
+            var client = _restClientFactory.Create();
+            var response =  await client.GetAsync<VideoConfig>(url);
+
+            var mp4Url = response.request.files.progressive[0].url;
+            return mp4Url;
         }
 
         public async Task<TResponse> PostAsync<TResponse>(Uri uri, object data)
@@ -65,6 +70,8 @@ namespace ProductX.BusinessLogic.WebApi
             client.AddHeader("Authorization", "Bearer 686d8b1cb9aed775f933af6de095dd7b");
             return await client.GetAsync<TResponse>(uri);
         }
+
+        
 
         /// <inheritdoc />
         //public async Task<TResponse> PostRawAsync<TResponse>(Uri uri, byte[] attachmentData)
