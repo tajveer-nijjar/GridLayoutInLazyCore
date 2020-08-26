@@ -39,6 +39,11 @@ namespace ProductX.BusinessLogic.WebApi
             return result;
         }
 
+        public async Task GetVideosOfAUser(long userId)
+        {
+           
+        }
+
         public async Task<TResponse> PostAsync<TResponse>(Uri uri, object data)
         {
             if (!_deviceInfo.IsWwwReachable)

@@ -21,12 +21,11 @@ namespace GridLayoutInLazyCore.Application.ViewControllers
         {
             View.SendValidationRequest += () =>
             {
-                DoSafeAsync(Validate);
             };
 
-            View.ValidateButtonClicked += () =>
+            View.ValidateButton.Clicked += (s, e) =>
             {
-                var x = 10;
+                DoSafeAsync(Validate);
             };
 
             //View.ValidateButton.Clicked += (s, e) => DoSafeAsync(Validate);
@@ -38,7 +37,10 @@ namespace GridLayoutInLazyCore.Application.ViewControllers
 
         public async Task Validate()
         {
-            var x = await _videoManager.Validate();
+            //var x = await _videoManager.Validate();
+            //await _videoManager.Authorize();
+
+            var videos = await _videoManager.GetListOfVideosInAnAlbum();
         }
     }
 }

@@ -10,5 +10,7 @@ namespace GridLayoutInLazyCore.Application.Views
     {
         event Action SendValidationRequest;
         event Action ValidateButtonClicked;
+
+        IButton ValidateButton { get; set; }
     }
 }

@@ -25,7 +25,6 @@ namespace GridLayoutInLazyCore.Droid.Views
         public event EventHandler<RecyclerAdapterClickEventArgs> ItemClick;
         public event Action SendValidationRequest;
         public event Action ValidateButtonClicked;
-        private Button _validateButton;
 
         public IButton ValidateButton { get; set; }
 
@@ -35,15 +34,21 @@ namespace GridLayoutInLazyCore.Droid.Views
             _data = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8 };
         }
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        private bool IsTablet(Context context)
         {
-            base.OnCreate(savedInstanceState);
-            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
-            SetContentView(Resource.Layout.home_view);
+            Display display = ((Activity)context).WindowManager.DefaultDisplay;
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            display.GetMetrics(displayMetrics);
 
+            var wInches = displayMetrics.WidthPixels / (double)displayMetrics.DensityDpi;
+            var hInches = displayMetrics.HeightPixels / (double)displayMetrics.DensityDpi;
 
-            // Get our button from the layout resource,
-            // and attach an event to it
+            double screenDiagonal = Math.Sqrt(Math.Pow(wInches, 2) + Math.Pow(hInches, 2));
+            return (screenDiagonal >= 6.0);
+        }
+
+        protected override void SetupView()
+        {
             RecyclerView recyclerView = FindViewById<RecyclerView>(Resource.Id.recyclerView);
 
             var spanCount = IsTablet(this) ? 2 : 1;
@@ -76,30 +81,9 @@ namespace GridLayoutInLazyCore.Droid.Views
             }
 
             SendValidationRequest?.Invoke();
-        }
 
-        private bool IsTablet(Context context)
-        {
-            Display display = ((Activity)context).WindowManager.DefaultDisplay;
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            display.GetMetrics(displayMetrics);
-
-            var wInches = displayMetrics.WidthPixels / (double)displayMetrics.DensityDpi;
-            var hInches = displayMetrics.HeightPixels / (double)displayMetrics.DensityDpi;
-
-            double screenDiagonal = Math.Sqrt(Math.Pow(wInches, 2) + Math.Pow(hInches, 2));
-            return (screenDiagonal >= 6.0);
-        }
-
-        protected override void SetupView()
-        {
-            _validateButton = (Button)FindViewById(Resource.Id.validateButton);
-            _validateButton.Enabled = true;
-            _validateButton.Text = "Abc";
-            _validateButton.Click += (s, e) =>
-            {
-                ValidateButtonClicked?.Invoke();
-            };
+            ValidateButton = (LazyCore.Droid.UI.Button)FindViewById(Resource.Id.buttonx);
+            ValidateButton.Text = "Hehe Haha Hoho";
         }
 
         protected override int LayoutResourceId => Resource.Layout.home_view;

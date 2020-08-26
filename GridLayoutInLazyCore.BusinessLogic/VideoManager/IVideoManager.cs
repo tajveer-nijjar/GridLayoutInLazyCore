@@ -9,5 +9,7 @@ namespace GridLayoutInLazyCore.BusinessLogic.VideoManager
     public interface IVideoManager
     {
         Task<ValidationResponse> Validate();
+        Task Authorize();
+        Task<VimeoDotNet.Models.Paginated<VimeoDotNet.Models.Video>> GetListOfVideosInAnAlbum();
     }
 }

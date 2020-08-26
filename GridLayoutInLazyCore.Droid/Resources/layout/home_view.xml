@@ -4,12 +4,11 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent">
-    <Button
-        android:id="@+id/validateButton"
+    <LazyCore.Droid.UI.Button
+        android:id="@+id/buttonx"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Validate2"
-        />
+        android:text="Button"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
