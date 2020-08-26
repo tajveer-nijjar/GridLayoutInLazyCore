@@ -9,13 +9,19 @@
     android:layout_width="match_parent"
     android:layout_height="300dp"/>
 
+  <ProgressBar 
+    android:layout_alignParentBottom="true"
+    style="@android:style/Widget.ProgressBar.Horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="10dp"
+    android:id="@+id/Progressbar"/>
+
   <Button
-    android:id="@+id/btnPlayPause"
-    android:text="Play/Pause"
-    android:visibility="invisible"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"/>
-  
+     android:id="@+id/btnPlayPause"
+     android:text="Play/Pause"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"/>
+
   <LazyCore.Droid.UI.Button
       android:id="@+id/buttonx"
       android:layout_width="match_parent"
